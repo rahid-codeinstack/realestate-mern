@@ -1,9 +1,12 @@
 import express from 'express'
 import { configDotenv } from 'dotenv'
 import { connectDB } from './mongodb/connect.js'
+import authRouter from './routes/auth.route.js'
+
 configDotenv()
 
 const app=express()
+app.use("/api/auth/",authRouter)
 const port=process.env.PORT || 3000;
 app.get("/test",(req,res)=>{
      res.send({
