@@ -35,13 +35,10 @@ const hashpassword=bcrypt.hashSync(signupUser.password,10)
 try {
  const user= new User({...signupUser,password:hashpassword})
   await  user.save()
-    res.status(201,{
-     message:'sign up successfully'
-     ,
-     statusCode:201,
-     success:true,
-
-
+    res.status(201).json({
+              message: 'sign up successfully' ,
+              statusCode: 201,
+              success: true,
     })
 } catch (error) {
      next(error)  
