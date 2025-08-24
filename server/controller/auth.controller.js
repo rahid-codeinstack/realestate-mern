@@ -1,5 +1,7 @@
 import { errorHandler } from "../utils/errorhandler.js";
 import User from "../model/user.model.js";
+import bcrypt from 'bcrypt'
+
 
 export async function signup(req,res,next){
 const signupUser=req.body;
@@ -28,8 +30,10 @@ if(!signupUser.password.length >=6)
 {
      next(errorHandler(400,'password must be atleat 6 character'))
 }
+const hashpassword=bcrypt.hashSync(signupUser.password,10)
+
 try {
-     const user= new User(signupUser)
+ const user= new User({...signupUser,password:hashpassword})
   await  user.save()
     res.status(201,{
      message:'sign up successfully'
