@@ -5,6 +5,13 @@ configDotenv()
 
 const app=express()
 const port=process.env.PORT || 3000;
+app.get("/test",(req,res)=>{
+     res.send({
+          success:true,
+          message:"hellow world server is working "
+     }
+     )
+})
 
 console.log(process.env)
 app.listen(port,()=>{
