@@ -2,6 +2,8 @@ import {Link} from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import {   signinFailur , signinSuccess  , singinStart   } from '../redux/user/userSlice';
+import { useDispatch  , useSelector } from 'react-redux';
 const emailRegix = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
 
@@ -11,10 +13,14 @@ function SignIn() {
         email:"",
         password:"",
     })
-    const [Error,setError]=useState('');
-    const [Message,setMessage]=useState('')
-    const [isLoading,setisLoadging]=useState(false);
+    // const [Error,setError]=useState('');
+    // const [isLoading,setisLoadging]=useState(false);
     const navigate=useNavigate()
+    const {isLoading,Error}=useSelector((  state  ) => {
+        return state.user.userReducer;
+    })
+    const Dispatch = useDispatch()
+
 
 
 
@@ -24,54 +30,26 @@ function HandleChange(e){
   setFormData({...FormData,[id]:Value});
 }
 
-function ClearError(){
-    setTimeout(() => {
-        setError("")
-    }, 4000);
-}
-function ValidateForm(){
-  const {username,email,password}=FormData;
-  if(!email || !password)
-  {
-     setError('form all field required')
-    return ClearError()
-  }
-
-  if(!emailRegix.test(email))
-  {
-     setError("!wrong credential")
-    return ClearError()
-  }
-  if(password.length < 6)
-  {
-     setError("!wrong credential")
-    return ClearError();
-  }
-}
 async function HandleSubmiteForm(e){
     e.preventDefault();
-    ValidateForm()
+
   try {
-      setisLoadging(true)  
+
+      Dispatch(singinStart())
+      alert('sign in')
     const res= await axios.post('/api/auth/signin',FormData)
+   
     if(!res.data.success)
     {
-      setisLoadging(false)
-      setError(res.data.message)
-      return ClearError();
+    return  Dispatch(signinFailur(res.data.message));
     }
-      setisLoadging(false)
-      setMessage(res.data.message)
-       navigate("/")
-  
 
+      Dispatch(signinSuccess(res.data.user))
+       navigate("/")
 
   } catch (error) {
-    console.log(error)
-      setError(error.message)
-      setisLoadging(false)
-      ClearError()
-
+    console.log(error.message)
+    Dispatch(signinFailur(error.message))
   }
     
 
@@ -89,8 +67,7 @@ async function HandleSubmiteForm(e){
                   <Link to="/sign-up" className='text-red-500'>Sign Up</Link>
               </div>
               <div className='text-red-500 w-full  py-2 px-2 '>
-               {Error && !Message && <span>{Error}</span>}
-              {!Error && Message && <span>{Message}</span>}
+               {Error  && <span>{Error}</span>}
               </div>
           </form>
       </div>

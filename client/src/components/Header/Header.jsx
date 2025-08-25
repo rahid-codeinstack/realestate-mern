@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Header.css'
 
 
@@ -17,7 +18,9 @@ function Header() {
                    <ul className='flex item-center justify-center gap-3'>
                     <li className='text-slate-700 hidden md:inline'>Home</li>
                     <li className='text-slate-700'>About</li>
-                    <li className='text-slate-700'>Profile</li>
+                    <li className='text-slate-700'>
+                              <Link to={"/sign-in"}>Sign in</Link>
+                    </li>
                    </ul>
                </nav>
           </header>
