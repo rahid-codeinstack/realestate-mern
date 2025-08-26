@@ -18,6 +18,11 @@ const userSchema=mongoose.Schema({
           required:true,
           
      }
+     ,avetar:{
+          type:String,
+          required:true,
+          default:"https://cdn-icons-png.flaticon.com/128/3135/3135715.png"
+     }
 }, {timestamps: true})
 
 const User=mongoose.model("UserModel",userSchema)

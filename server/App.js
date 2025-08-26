@@ -3,6 +3,8 @@ import { configDotenv } from 'dotenv'
 import { connectDB } from './mongodb/connect.js'
 import authRouter from './routes/auth.route.js'
 import cookieParser from 'cookie-parser'
+import userRouter from './routes/user.route.js'
+
 
 configDotenv()
 
@@ -10,7 +12,8 @@ const app=express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
-app.use("/api/auth",authRouter)
+app.use("/api/auth",authRouter);
+app.use("/api/user/",userRouter)
 
 const port=process.env.PORT || 3000;
 app.get("/test",(req,res)=>{
