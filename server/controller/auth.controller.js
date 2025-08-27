@@ -72,8 +72,6 @@ export async function signin(req,res,next){
           const {password:pass,...rest}=validUser._doc;
           res.cookie('access_key',token,{
                httpOnly: true,        
-               secure: true,          
-               sameSite: "strict",
                maxAge: 3 * 24 * 60 * 60 * 1000 
                
           }).json({

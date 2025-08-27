@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 app.use("/api/auth",authRouter);
-app.use("/api/user/",userRouter)
+app.use("/api/user",userRouter)
 
 const port=process.env.PORT || 3000;
 app.get("/test",(req,res)=>{

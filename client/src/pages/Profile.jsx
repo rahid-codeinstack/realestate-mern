@@ -67,9 +67,14 @@ function handleFormFieldChange({target}){
   setformData({...formData,[fieldName]:fieldValue});
 }
 
-function handleUpdateUserForm(e){
+ async function handleUpdateUserForm(e){
   e.preventDefault()
-  console.log(formData)
+ 
+  try {
+    
+  } catch (error) {
+    
+  }
 
   
 
