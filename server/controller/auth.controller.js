@@ -91,3 +91,66 @@ export async function signin(req,res,next){
 
 
 
+
+//--------------------------googlesigin-----------------------------------------------------------------
+
+
+export async function google(req,res,next) {
+     const {username,email,avetar}=req.body;
+     console.log(req.body.avetar)
+     try {
+          const user= await User.findOne({email})
+          if(user)
+          {
+               const token = jwt.sign({id:user._id},process.env.JWT_SECRET)
+               const {password:pass,...rest}=user._doc;
+               res.cookie("access_key",token,{
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: "strict",
+                    maxAge: 3 * 24 * 60 * 60 * 1000 
+               }).json({
+                    success:true,
+                    message:"user sigin in"
+                    ,
+                    user:rest,
+
+               })
+          }else{
+               const password = Date.now().toString() + process.env.JWT_SECRET.substring(Math.floor(Math.random() * process.env.JWT_SECRET.length), Math.floor(Math.random() * process.env.JWT_SECRET.length));
+               const hashPassword = bcrypt.hashSync(password,10)
+
+            
+               const user = new User({
+                         username:username,
+                         email:email,
+                         password:hashPassword,
+                         avetar:avetar,
+               })
+               await user.save()
+
+               const token = jwt.sign({id:user._id},process.env.JWT_SECRET);
+               const {password:pass,...rest}=user._doc;
+               res.
+               cookie("access_key",token,{
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: "strict",
+                    maxAge: 3 * 24 * 60 * 60 * 1000 ,
+               }).json({
+                    success:true,
+                    user:rest,
+                    statusCode:201,
+
+               })
+               
+
+          }
+     }catch{
+          next(errorHandler(500,error.message))
+     }
+     
+}
+
+
+
