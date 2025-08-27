@@ -1,7 +1,7 @@
 
 function Signout() {
   return (
-    <div>Signout</div>
+    <span>sign out</span>
   )
 }
 
