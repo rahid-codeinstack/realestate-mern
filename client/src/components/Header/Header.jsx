@@ -2,9 +2,15 @@
 import './Header.css'
 import estateLogo from '../../assets/estate.png'
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 function Header() {
+     const {user} = useSelector((state)=>{
+          return state.user.userReducer;
+     });
+     console.log(user)
+
   return (
      <>
 
@@ -24,11 +30,13 @@ function Header() {
                   <form className='bg-slate-300 justify-start search-form flex  items-center gap-2 py-1 px-3 rounded-sm'>
                          <input type="text" placeholder='search..' className='focus:outline-none  ' />
                     </form>
-                   <ul className='flex item-center justify-center gap-3'>
+                   <ul className='flex items-center justify-center gap-3'>
                     <li className='text-slate-700 hidden md:inline'>Home</li>
                     <li className='text-slate-700'>About</li>
-                    <li className='text-slate-700'>
-                              <Link to={"/sign-in"}>Sign in</Link>
+                    <li className='text-slate-700 '>
+                    <Link to={'/profile'}>
+                    {user?.avetar ? <img className='w-10 h-10 rounded-full hover:scale-[101%] border-slate-3000 border-2' src={user.avetar} alt='profile'></img>:"sign in"}
+                    </Link>
                     </li>
                    </ul>
                </nav>
