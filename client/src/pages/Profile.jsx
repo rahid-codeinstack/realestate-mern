@@ -1,22 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux"
 import axios from 'axios'
+import { updateStart,updateFail,updateSuccess } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
+
 function Profile() {
 const [File,setFile]=useState('')
 const fileRef = useRef(null)
-  const {user}=useSelector((state)=>{
+  const {user,isLoading,Error}=useSelector((state)=>{
     return state.user.userReducer;
   });
+  
 const [formData,setformData]=useState({
   username:user.username,
   email:user.email,
-  avetar:user.avetar,
+  avetar:'',
   password:'',
 });
 const [imageUrl,setimageUrl]=useState('');
 const [isLoadingFile,setisLoadingFile]=useState(false);
 const  [fileUploadError,setFileUploadError]=useState('');
 const [fileSuccess,setfileSuccess]=useState(false)
+const Dispatch=useDispatch()
 
 
 
@@ -46,6 +51,7 @@ useEffect(()=>{
   setisLoadingFile(false)
   setfileSuccess(true)
   setimageUrl(res.data.secure_url)
+  setformData({...formData,avetar:res.data.secure_url})
  
 
   setTimeout(() => {
@@ -69,11 +75,16 @@ function handleFormFieldChange({target}){
 
  async function handleUpdateUserForm(e){
   e.preventDefault()
- 
+ const id=user._id;
+
+
+
   try {
-    
+    Dispatch(updateStart())
+    const res= await axios.post("api/user/updateuser/"+id,formData)
+    Dispatch(updateSuccess(res.data.user))
   } catch (error) {
-    
+   Dispatch(updateFail(error.message))
   }
 
   
@@ -99,7 +110,7 @@ function handleFormFieldChange({target}){
             <input type="text" onChange={handleFormFieldChange} className="p-3 bg-slate-300 tex-black rounded-md mb-3 focus:ouline-1 focus:outline-slate-500" id="username" placeholder={'username'} value={formData.username} />
             <input type="email" onChange={handleFormFieldChange} className="p-3 bg-slate-300 tex-black rounded-md mb-3 focus:ouline-1 focus:outline-slate-500" id="email" placeholder={'email'} value={formData.email} />
             <input type="password" onChange={handleFormFieldChange} className="p-3 bg-slate-300 tex-black rounded-md mb-3 focus:ouline-1 focus:outline-slate-500" id="password" placeholder="password" />
-            <button  className="p-3 bg-green-600 cursor-pointer  text-white w-full rounded-md mb-3 hover:opacity-80">Update</button>
+            <button disabled={isLoading}  className="p-3 bg-green-600 cursor-pointer  text-white w-full rounded-md mb-3 hover:opacity-80">{isLoading ? "updating...":"Update"}</button>
             <div className="py-3 flex justify-between items-center text-red-700">
                 <span className="text-red-500 cursor-pointer hover:text-red-700 transition-all">Delete Account</span>
                 <span className="text-red-500 cursor-pointer hover:text-red-700 transition-all">Sign out</span>

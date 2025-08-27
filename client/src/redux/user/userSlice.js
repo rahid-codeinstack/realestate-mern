@@ -25,10 +25,31 @@ const userSlice=createSlice({
                     state.isLoading=false;
 
               }
+              ,
+                    updateStart:function(state){
+                              state.isLoading=true;
+                    }, 
+                         updateSuccess:function (state,action){
+                                   state.user=action.payload;
+                                   state.isLoading=false;
+
+                         } ,
+                              updateFail:function (state,action){
+                                   state.Error=action.payload;
+                                   state.isLoading=false;
+
+                              }
      }
 })
 
-export const {  singinStart , signinSuccess , signinFailur    } = userSlice.actions;
+export const { 
+      singinStart ,
+       signinSuccess ,
+       signinFailur   ,
+       updateStart ,
+       updateSuccess,
+       updateFail
+       } = userSlice.actions;
 
 export default userSlice.reducer;
 

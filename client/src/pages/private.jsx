@@ -6,10 +6,11 @@ function Private() {
      const {user}=useSelector((state)=>{
      return state.user.userReducer;
      })
+     console.log(user)
 
 
   return (
-          user.email ? <Outlet/> :<Navigate to={"/sign-in"}/>
+          user?.avetar ? <Outlet/> :<Navigate to={"/sign-in"}/>
   )
 }
 
