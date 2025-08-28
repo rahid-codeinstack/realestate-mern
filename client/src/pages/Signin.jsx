@@ -22,6 +22,9 @@ function SignIn() {
         return state.user.userReducer;
     })
     const Dispatch = useDispatch()
+    console.log('from signin',isLoading)
+    console.log('from signin',Error)
+    
 
 
 
@@ -50,7 +53,6 @@ async function HandleSubmiteForm(e){
        navigate("/")
 
   } catch (error) {
-    console.log(error.message)
     Dispatch(signinFailur(error.message))
   }
     

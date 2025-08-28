@@ -43,9 +43,10 @@ const userSlice=createSlice({
                                         state.isLoading=false;
                                         
                                    },
-                                        deletSuccess: function (state){
-                                             state.user=null;
-                                             isLoading=false;
+                                        deletSuccess: function (state,action){
+                                             state.user=action.payload;
+                                            state.isLoading=false;
+                                            state.Error=''
                                         },
                                              deletFail: function (state,action){
                                                        state.Error=action.payload;

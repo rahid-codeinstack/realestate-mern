@@ -6,24 +6,27 @@ import { useDispatch,useSelector } from "react-redux";
 
 
  function Delete({userid}) {
-     const {Error}=useSelector((state)=>{
+     const {Error,user}=useSelector((state)=>{
           return state.user.userReducer;
      });
      const Dispatch = useDispatch();
      const navigate=useNavigate()
+     console.log(user)
     async function DeletUser(){
           try {
                Dispatch(deletStart())
-               const res= await axios.delete("api/user/delet"+userid);
+               const res= await axios.delete("api/user/deleteuser/"+userid);
+               alert('deleted')
+               console.log('delet res',res.data)
+               
                if(!res.data.statusCode===200)
                {
-                    throw new Error("delet confused")
+                    Dispatch(deletFail(res.data.message))
                }
-               Dispatch(deletSuccess());
-               document.cookie.remove();
-               navigate("/sign-up");
+               Dispatch(deletSuccess(null));
           } catch (error) {
-               Dispatch(deletFail(error.message));  
+               Dispatch(deletFail(error.message)); 
+               console.log('delet funcitoni',error.message);
           };
      };
 
