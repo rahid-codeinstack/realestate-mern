@@ -43,3 +43,36 @@ async function  UpdateUser(req,res,next) {
      }
      
 }
+
+
+
+
+// ------------------------------------ deletUser function ------------------------------------------------------
+
+
+
+ export async function deletUser(req,res,next){
+      const id = req.params.Id
+ 
+     if(req.userid !== id)
+     {
+          return next(errorHandler(403,'forbidden:you can just the profile not to delet '))
+
+     };
+     try {
+          const deletuser = await User.findByIdAndDelete(id,{new:true});
+          if (!deletuser) {
+               next(errorHandler(400, ' user does not deleted'))
+          }
+
+          res.clearCookie('access_key');
+          res.send({
+               status: 200,
+               message: "user deleted successfully",
+               user:deletuser,
+          })
+
+     } catch (error) {
+          next(errorHandler(500,error.message));
+     }
+}
