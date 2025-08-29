@@ -25,11 +25,11 @@ const listingSchema=mongoose.Schema({
 
           },
           bathroom:{
-               type:Boolean,
+               type:Number,
                required:true,
           },
           bedroom:{
-               type:Boolean,
+               type:Number,
                required:true,
           },
           furnished:{
