@@ -115,7 +115,7 @@ function handleFormFieldChange({target}){
             <button disabled={isLoading}  className="p-3 bg-green-600 cursor-pointer  text-white w-full rounded-md mb-3 hover:opacity-80">{isLoading ? "updating...":"Update"}</button>
             <div className="py-3 flex justify-between items-center">
                 <Delete userid={user._id && user._id}/>
-                <Signout/>
+                <Signout userid={user._id && user._id}/>
             </div>
 
             <div className="mt-4 w-full text-red-500 text-left">

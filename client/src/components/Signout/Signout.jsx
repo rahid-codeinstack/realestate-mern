@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useState } from "react"
 
 
-function Signout() {
+function Signout({userid}) {
     const [loading,setloading]=useState(false)    
 
      const Dispatch = useDispatch();
@@ -15,7 +15,7 @@ function Signout() {
                 Dispatch(signOutStart())
                 
                 alert('sigout start')
-                const res= await axios.post('api/auth/signout');
+                const res= await axios.post('api/auth/signout/'+userid);
                 if(!res.data.success)
                 {
                 return Dispatch(signOutFail(res.data.message));
