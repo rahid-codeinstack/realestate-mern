@@ -4,6 +4,8 @@ import { connectDB } from './mongodb/connect.js'
 import authRouter from './routes/auth.route.js'
 import cookieParser from 'cookie-parser'
 import userRouter from './routes/user.route.js'
+import listingRouter from './routes/listing.route.js'
+
 
 
 configDotenv()
@@ -14,7 +16,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 app.use("/api/auth",authRouter);
 app.use("/api/user",userRouter)
-
+app.use("/api/listing",listingRouter)
 const port=process.env.PORT || 3000;
 app.get("/test",(req,res)=>{
      res.send({
