@@ -4,6 +4,7 @@ import axios from 'axios'
 import { updateStart,updateFail,updateSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import Delete from "../components/Delete/Delete";
+import Signout from "../components/Signout/Signout";
 
 function Profile() {
 const [File,setFile]=useState('')
@@ -112,9 +113,13 @@ function handleFormFieldChange({target}){
             <input type="email" onChange={handleFormFieldChange} className="p-3 bg-slate-300 tex-black rounded-md mb-3 focus:ouline-1 focus:outline-slate-500" id="email" placeholder={'email'} value={formData.email} />
             <input type="password" onChange={handleFormFieldChange} className="p-3 bg-slate-300 tex-black rounded-md mb-3 focus:ouline-1 focus:outline-slate-500" id="password" placeholder="password" />
             <button disabled={isLoading}  className="p-3 bg-green-600 cursor-pointer  text-white w-full rounded-md mb-3 hover:opacity-80">{isLoading ? "updating...":"Update"}</button>
-            <div className="py-3 flex justify-between items-center text-red-700">
+            <div className="py-3 flex justify-between items-center">
                 <Delete userid={user._id && user._id}/>
-                <span className="text-red-500 cursor-pointer hover:text-red-700 transition-all">Sign out</span>
+                <Signout/>
+            </div>
+
+            <div className="mt-4 w-full text-red-500 text-left">
+                {Error && Error}
             </div>
         </form>
     </div>
