@@ -152,3 +152,31 @@ export async function google(req,res,next) {
 
 
 
+
+
+
+
+// ------------------------------------------- signout request function ---------------------------------
+
+
+
+export async function  signOutUser(req,res,next) {
+          const allowedUser= req.params.id === req.userid;
+          if(!allowedUser)
+          {
+          return next(errorHandler(401,'you can just read not delet'));
+          } 
+
+          try {     
+               res.clearCookie("access_key")
+               res.status(200).json({
+                         message:"user signout successfully",
+                         status:200,
+                         success:true,
+               })
+          } catch (error) {
+                    next(error);
+          }
+}
+
+
