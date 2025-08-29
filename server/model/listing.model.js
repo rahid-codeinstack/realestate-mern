@@ -22,7 +22,7 @@ const listingSchema=mongoose.Schema({
 
                }
                ,
-               zipCode:{
+               zipcode:{
                     type:String,
                     required:true,
 
@@ -32,6 +32,11 @@ const listingSchema=mongoose.Schema({
                     type:String,
                     required:true,
 
+               }
+               ,
+               country:{
+                    type:String,
+                    required:true,
                }
           },
           prices:{
